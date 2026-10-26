@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: pulseboard
+      POSTGRES_USER: pulse
+      POSTGRES_PASSWORD: pulse_pw
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulse -d pulseboard"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/pulseboard
+      DB_USER: pulse
+      DB_PASSWORD: pulse_pw
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Nginx: serves the React build and proxies /api to the backend
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

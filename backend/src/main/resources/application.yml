@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: pulseboard
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/pulseboard}
+    username: ${DB_USER:pulse}
+    password: ${DB_PASSWORD:pulse_pw}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
