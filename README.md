@@ -28,6 +28,3 @@ Open http://localhost (Nginx serves the React app and proxies `/api` to Spring B
 | GET | `/api/rooms/{code}` | Room info + live results |
 | POST | `/api/rooms/{code}/votes` | Vote `{ "nickname": "Sam", "score": 4 }` (voting again replaces your vote) |
 | POST | `/api/rooms/{code}/close` | Close voting. Needs header `X-Host-Key` |
-
-There is no login. The host's key is kept in the browser's localStorage, so only the
-browser that created the room can close it.
